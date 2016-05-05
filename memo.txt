@@ -1,11 +1,31 @@
-画像読み込み → Canvas で操作 → 保存
-http://yusainotes.webcrow.jp/javascript/script/canvas_save.html
-
-これからのブログネタ、恒星の視位置(赤経、赤緯）、ヒッパルコス星表とティコ星表の使い方
-http://seppina.cocolog-nifty.com/blog/blog.html
-
-astrometry.net
+----------------------------------
+■参考
+・セッピーナさん
+  ・セッピーナの趣味の天文計算
+    ・これからのブログネタ、恒星の視位置(赤経、赤緯）、ヒッパルコス星表とティコ星表の使い方
+      http://seppina.cocolog-nifty.com/blog/blog.html
+    ・「写真から星の座標を得る」アプリ
+      http://seppina.cocolog-nifty.com/blog/2014/07/1-46a7.html
+----------------------------------
+■画像解析
+・NaviNaviさん
+  ・Oh!MyGuider君
+    https://www.google.co.jp/search?q=%22Oh!MyGuider%E5%90%9B%22&espv=2&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjQ7bWwssPMAhWEG6YKHY38DKQQ_AUICCgC&biw=1160&bih=711#imgrc=nZj0gQPC13e8rM%3A
+    ・境界内の重心
+----------------------------------
+■検索
+・ほよほよさん
+　・ほよほよのブログ
+　　・(追記あり)写真の座標から赤経・赤緯を求める－プログラム再公開
+　　  http://ameblo.jp/ringworldengineer/entry-11899159871.html
+　　　・「約21万の星々のうち２星が成す角度が4度未満の組み合わせをすべて計算して離角テーブルを作成します（3582万4425件）」
+----------------------------------
+■星表
+・HEASARC Catalog Resources Index (NASA)
+  http://heasarc.gsfc.nasa.gov/cgi-bin/W3Browse/w3catindex.pl#STAR%20CATALOG
+----------------------------------
+■その他
+astrometry.net(astrometry.net)
 http://nova.astrometry.net/user_images/1100219#original
 
-ヒッパルコス
-http://heasarc.gsfc.nasa.gov/cgi-bin/W3Browse/w3catindex.pl#STAR%20CATALOG
+
