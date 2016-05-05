@@ -1,7 +1,10 @@
-filename='o0597039813019218534.png';
+filename='o0462048812502599345.jpg';
+%filename='o0597039813019218534.png';
+%filename='o0594052413002384746.png';
+%filename='6494.jpg';
 trendR   = 50;
 smoothF  = [1 -0.5]';
-noiseThRate = 0.0001;
+noiseThRate = 0.01;
 
 A = mean(imread(filename),3);
 wx=size(A,1);
@@ -10,24 +13,26 @@ nA    = normfil(A);
 
 % remove trend
 tA = zeros(size(A));
-for y=1:trendR:wy
-  for x=1:trendR:wx
-    x1=min(x+trendR,wx);
-    y1=min(y+trendR,wy);
-    subA = A(x:x1,y:y1);
-    medsubA = median(reshape(subA,prod(size(subA)),1));
-    tA(x:x1,y:y1) = medsubA;
-  end % for x
-end % for y
+if trendR>0
+  for y=1:trendR:wy
+    for x=1:trendR:wx
+      x1=min(x+trendR,wx);
+      y1=min(y+trendR,wy);
+      subA = A(x:x1,y:y1);
+      medsubA = median(reshape(subA,prod(size(subA)),1));
+      tA(x:x1,y:y1) = medsubA;
+    end % for x
+  end % for y
+end
 rtA = A-tA;
 
 % smoothing
 srtA = iir2d(1,smoothF,rtA);
 
 % noise reduction
-rankA = sort(reshape(rtA,wx*wy,1),'descend');
+rankA = sort(reshape(srtA,wx*wy,1),'descend');
 th = rankA(ceil(noiseThRate*wx*wy),1);
-nrsrtA = normfil(max(srtA,th));
+[nrsrtA, rate] = normfil(max(srtA,th));
 B = nrsrtA;
 
 % make centroids
@@ -36,9 +41,9 @@ checked([1 end],1:end)=1; % discard photo edge
 checked(1:end,[1 end])=1; % discard photo edge
 checked2=checked;
 
-cx = zeros(wx*wy/2,1);
-cy = zeros(wx*wy/2,1);
-cz = zeros(wx*wy/2,1);
+cx = zeros(ceil(wx*wy/2),1);
+cy = zeros(ceil(wx*wy/2),1);
+cz = zeros(ceil(wx*wy/2),1);
 cs = 0;
 for y=2:wy-1
   for x=2:wx-1
@@ -119,8 +124,12 @@ cy=cy(ci,1);
 % plot
 contourf(1:wy,wx-(1:wx),5*log10((B)));
 hold on;
-for ci=1:20
-  text(cy(ci),wx-cx(ci)+10,sprintf('%1.1f',5*log10(cz(ci))));
+for ci=1:min(20,cs)
+  plot(cy(ci),wx-cx(ci),'+');
+  text(cy(ci),wx-cx(ci)+10,sprintf('%1.1f',5*log10(cz(ci))),'fontsize',10);
+end
+for ci=min(20,cs)+1:cs
+  text(cy(ci),wx-cx(ci)+10,sprintf('%1.1f',5*log10(cz(ci))),'fontsize',6);
 end
 hold off;
 
