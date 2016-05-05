@@ -23,12 +23,18 @@
 <title>AstroPhoto Scouter</title></head>
 <div style="vertical-align:center">
 Study for AstroPhoto Scouter in javascript</div>
-<canvas align="center" id="canvas0" width="288" height="360" style="background-color:black;border-style:solid;border-width:1px;border-color:#8888FF"></canvas><br>
+<input id='fileSelect' type='file' accept='image/*' />
+<table>
+  <tr><td><p>Original<br><canvas id='canvasIn' width='320' height='240'></canvas></p></td></tr>
+  <tr><td><p>Canvas  <br><canvas id='canvasOut' width='320' height='240'></canvas></p></td></tr>
+  <tr><td><p>Image   <br><img id='imgOut' /><p class='small'>                      </p></td></tr>
+</table>
 <address id="debug">
 AstroPhoto Scouter
 version <span id="versiondisplay"></span> <script type="text/javascript" src="./version.js"></script><br>
 programmed by <a href="http://twitter.com/#!/koteitan">koteitan</a><br>
-source code is at <a href="https://github.com/koteitan/astrophoto-scouter">github</a>
+source code is at <a href="https://github.com/koteitan/astrophoto-scouter">github</a><br>
+<span id="changelog"></span>
 </address>
 </body>
 </html>
