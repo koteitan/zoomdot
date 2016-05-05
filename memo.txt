@@ -1,0 +1,6 @@
+画像読み込み → Canvas で操作 → 保存
+http://yusainotes.webcrow.jp/javascript/script/canvas_save.html
+
+
+これからのブログネタ、恒星の視位置(赤経、赤緯）、ヒッパルコス星表とティコ星表の使い方
+http://seppina.cocolog-nifty.com/blog/blog.html
