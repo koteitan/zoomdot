@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-type" content="text/html; charset=sjis">
 <!--[if IE]>
 <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
 <script type="text/javascript" src="excanvas.js"></script>
@@ -8,16 +8,17 @@
 <meta http-equiv="Content-Style-Type" content="text/css">
 <script type="text/javascript" src="./main.js"></script>
 <style><!--
-  body{font-family:Arial;font-size:10pt;color:#8888FF; background-color:black}
-  a{color:#8888FF;border-style:none;text-decoration:underline}
-  a:link{color:#8888FF;border-style:none;text-decoration:underline}
-  a:visited{color:#8888FF;border-style:none;text-decoration:underline}
-  a:hover{color:#8888FF;border-color:none;text-decoration:underline}
+  body{font-family:Arial;font-size:10pt;color:#4444FF; background-color:black}
+  a{color:#4444FF;border-style:none;text-decoration:underline}
+  a:link{color:#4444FF;border-style:none;text-decoration:underline}
+  a:visited{color:#4444FF;border-style:none;text-decoration:underline}
+  a:hover{color:#4444FF;border-color:none;text-decoration:underline}
   address{text-align:right;font-style:normal}
-  td{border-color:#8888FF;text-align:center}
-  th{border-color:#8888FF;text-align:center}
-  input{border-style:solid;border-color:#8888FF;background-color:#000000;color:#8888FF}
+  td{border-color:#4444FF;text-align:center}
+  th{border-color:#4444FF;text-align:center}
+  input{border-style:solid;border-color:#4444FF;background-color:#000000;color:#4444FF}
   .tdbutton{border-width:1px;border-style:solid;border-color:white;height:30px;width:30px}
+  .canvas{border-style:solid;border-color:#4444FF}
   hr{border-style:solid}
 --></style>
 <title>AstroPhoto Scouter</title></head>
@@ -25,16 +26,21 @@
 Study for AstroPhoto Scouter in javascript</div>
 <input id='fileSelect' type='file' accept='image/*' />
 <table>
-  <tr><td><p>Original<br><canvas id='canvasIn' width='320' height='240'></canvas></p></td></tr>
-  <tr><td><p>Canvas  <br><canvas id='canvasOut' width='320' height='240'></canvas></p></td></tr>
-  <tr><td><p>Image   <br><img id='imgOut' /><p class='small'>                      </p></td></tr>
+  <tr><td><p>Original<br><canvas class='canvas' id='canvasIn'  width='320' height='240'></canvas>
+           </p></td></tr>
+  <tr><td><p>Canvas  <br><canvas class='canvas' id='canvasOut' width='320' height='240'></canvas>
+           </p></td></tr>
+  <tr><td><p>Image   <br><img    class='canvas' id='imgOut'   />                                 
+           </p></td></tr>
 </table>
 <address id="debug">
 AstroPhoto Scouter
-version <span id="versiondisplay"></span> <script type="text/javascript" src="./version.js"></script><br>
+version <span id="versiondisplay"></span><br>
 programmed by <a href="http://twitter.com/#!/koteitan">koteitan</a><br>
 source code is at <a href="https://github.com/koteitan/astrophoto-scouter">github</a><br>
 <span id="changelog"></span>
+<span id="knownbugs"></span>
+<script type="text/javascript" src="./version.js"></script>
 </address>
 </body>
 </html>

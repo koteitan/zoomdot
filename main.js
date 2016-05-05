@@ -1,35 +1,49 @@
+var FRIn ;
+var imgIn;
+var elemCanvasIn ;
+var elemCanvasOut;
+var elemImgOut   ;
+
+window.onload=function(){ //entry point
+  elemCanvasIn  = document.getElementById('canvasIn');
+  elemCanvasOut = document.getElementById('canvasOut');
+  elemImgOut    = document.getElementById('imgOut');
+  document.getElementById('fileSelect').addEventListener('change', loadImg, false);
+}
+
+
 function loadImg(e){
 	var file = e.target.files[0];
-	var FRIn = new FileReader();
+	FRIn = new FileReader();
 	FRIn.onload = function(e){
-		var imgB = new Image();
-		imgB.onload = function(){
-			var ctx = document.getElementById('canvasIn').getContext('2d');
-			ctx.drawImage(imgB, 0, 0, 320, 240);
+		imgIn = new Image();
+		imgIn.onload = function(){
+		  elemCanvasIn .width  = imgIn.width; elemCanvasIn .height = imgIn.height;
+		  elemCanvasOut.width  = imgIn.width; elemCanvasOut.height = imgIn.height;
+		  imgOut       .width  = imgIn.width; imgOut       .height = imgIn.height;
+			var ctx = elemCanvasIn.getContext('2d');
+			ctx.drawImage(imgIn, 0, 0, imgIn.width, imgIn.height);
 			changeGray();
 			changeImg();
 		}
-		imgB.src = e.target.result;
+		imgIn.src = e.target.result;
 	};
 	FRIn.readAsDataURL(file);
 }
 function changeGray(){
-	var ctxA = document.getElementById('canvasIn').getContext('2d');
-	var dataA = ctxA.getImageData(0, 0, 320, 240).data;
-	var ctxB = document.getElementById('canvasOut').getContext('2d');
+	var ctxA = elemCanvasIn.getContext('2d');
+	var dataA = ctxA.getImageData(0, 0, imgIn.width, imgIn.height).data;
+	var ctxB = elemCanvasOut.getContext('2d');
 	var j = 4;
-	for (y = 0; y < 240 / j; y++){
-		for (x = 0; x < 320 / j; x++){
-			var i = (x + y * 320) * 4 * j;
+	for (y = 0; y < imgIn.height / j; y++){
+		for (x = 0; x < imgIn.width / j; x++){
+			var i = (x + y * imgIn.width) * 4 * j;
 			ctxB.fillStyle = 'rgba(' + dataA[i] + ',' + dataA[i + 1] + ',' + dataA[i + 2] + ', 255)';
 			ctxB.fillRect(x * j, y * j, j, j);
 		}
 	}
 }
 function changeImg(){
-	var src = document.getElementById('canvasOut').toDataURL('image/jpg');
-	document.getElementById('imgOut').src = src;
-}
-window.onload=function(){ //entry point
-  document.getElementById('fileSelect').addEventListener('change', loadImg, false);
+	var src = elemCanvasOut.toDataURL('image/jpg');
+	elemImgOut.src = src;
 }
