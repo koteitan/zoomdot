@@ -1,10 +1,10 @@
-filename='o0462048812502599345.jpg';
-%filename='o0597039813019218534.png';
+%filename='o0462048812502599345.jpg';
+filename='o0597039813019218534.png';
 %filename='o0594052413002384746.png';
 %filename='6494.jpg';
 trendR   = 50;
 smoothF  = [1 -0.5]';
-noiseThRate = 0.01;
+noiseThRate = 0.001;
 
 A = mean(imread(filename),3);
 wx=size(A,1);
@@ -24,7 +24,7 @@ if trendR>0
     end % for x
   end % for y
 end
-rtA = A-tA;
+rtA = max(A-tA,0);
 
 % smoothing
 srtA = iir2d(1,smoothF,rtA);
@@ -122,14 +122,35 @@ cx=cx(ci,1);
 cy=cy(ci,1);
 
 % plot
+figure(1);
 contourf(1:wy,wx-(1:wx),5*log10((B)));
 hold on;
 for ci=1:min(20,cs)
   plot(cy(ci),wx-cx(ci),'+');
-  text(cy(ci),wx-cx(ci)+10,sprintf('%1.1f',5*log10(cz(ci))),'fontsize',10);
+  text(cy(ci),wx-cx(ci)+20,sprintf('%d',ci),'fontsize',10);
 end
 for ci=min(20,cs)+1:cs
-  text(cy(ci),wx-cx(ci)+10,sprintf('%1.1f',5*log10(cz(ci))),'fontsize',6);
+  text(cy(ci),wx-cx(ci)+20,sprintf('%d',ci),'fontsize', 6);
 end
 hold off;
+
+% ranking
+figure(2);
+subplot(2,1,1);
+loglog((1:(wx*wy))/(wx*wy), rankA/max(rankA),'b-');
+hold on;
+loglog([1/(wx*wy) 1], [th th]/max(rankA), 'r-');
+loglog([noiseThRate noiseThRate], [10e-6 1], 'r-');
+grid on;
+hold off;
+xlabel('ranking [pixels rate]');
+ylabel('brightness');
+axis([1/(wx*wy) 1 10e-6 1])
+
+subplot(2,1,2);
+loglog([1:cs]/cs, cz/max(cz),'gx');
+grid on;
+xlabel('ranking [stars rate]');
+ylabel('brightness');
+axis([1/cs 1 10e-6 1])
 
