@@ -11,6 +11,7 @@ window.onload=function(){ //entry point
   elemCanvasIn  = document.getElementById('canvasIn');
   elemCanvasOut = document.getElementById('canvasOut');
   elemImgOut    = document.getElementById('imgOut');
+  elemDebug     = document.getElementById('debug');
   document.getElementById('fileSelect').addEventListener('change', loadImg, false);
 }
 
@@ -35,7 +36,10 @@ function loadImg(e){
 	FRIn.readAsDataURL(file);
 }
 
-var trendR = 100;
+var trendR  = 40;
+var trendD  = 10; //must be even
+var trendSD = 40;
+var invTrendSD = 1/trendSD;
 function analize(){
   // ctx -> make gray -> A
 	var idIn = elemCanvasIn.getContext('2d').getImageData(0, 0, wx, wy);
@@ -52,26 +56,49 @@ function analize(){
   if(trendR>0){
     var tA = new Array(wy);
     for (y = 0; y < wy ; y++) tA[y] = new Array(wx);
-    for(var y=0;y<wy;y+=trendR){
-      for(var x=0;x<wx;x+=trendR){
-        var ex=wx-x<trendR?wx-x:trendR;
-        var ey=wy-y<trendR?wy-y:trendR;
-        var exy=ex*ey;
-        var rankR = new Array(exy);
-        var i=0;
-        for(var dy=0;dy<ey;dy++){
-          for(var dx=0;dx<ex;dx++){
-            rankR[i]=A[y+dy][x+dx];
-            i++;
+    for(var y=0;y<wy;y+=trendD){
+      for(var x=0;x<wx;x+=trendD){
+        var rx0=x+trendD/2-trendR <  0? 0:x+trendD/2-trendR;
+        var ry0=y+trendD/2-trendR <  0? 0:y+trendD/2-trendR;
+        var rx1=x+trendD/2+trendR > wx?wx:x+trendD/2+trendR;
+        var ry1=y+trendD/2+trendR > wy?wy:y+trendD/2+trendR;
+        var rankRLen=Math.floor((rx1-rx0)*(ry1-ry0)*invTrendSD);
+        var rankR = new Array(rankRLen);
+        for(var i=0;i<rankRLen;i++) rankR[i]=0;
+        var i1=0;
+        var i2=0;
+        for(var y2=ry0;y2<ry1;y2++){
+          for(var x2=rx0;x2<rx1;x2++){
+            rankR[i2] += A[y2][x2];
+            i1++;
+            if(i1>=trendSD){
+              rankR[i2] *= invTrendSD;
+              i2++;
+              i1=0;
+            }
           }
         }
-        rankR.sort();
-        var medsubA = rankR[Math.floor(exy/2)];
-        for(var dy=0;dy<ey;dy++){
-          for(var dx=0;dx<ex;dx++){
-            tA[y+dy][x+dx] = medsubA;
+        rankR[i2] /= i2;
+        rankR.sort(function(a,b){return a>b?1:-1;});
+        var medsubA = rankR[Math.floor(rankRLen/2)];
+        
+        var dx0=x;
+        var dy0=y;
+        var dx1=x+trendD > wx?wx:x+trendD;
+        var dy1=y+trendD > wy?wy:y+trendD;
+        for(var y2=dy0;y2<dy1;y2++){
+          for(var x2=dx0;x2<dx1;x2++){
+            tA[y2][x2] = medsubA;
           }
         }
+/*        elemDebug.innerHTML = elemDebug.innerHTML+ 
+          "x="+x+", y="+y+"<br>"+
+          "rx0="+rx0+", rx1="+rx1+"<br>"+
+          "ry0="+ry0+", ry1="+ry1+"<br>"+
+          "dx0="+dx0+", dx1="+dx1+"<br>"+
+          "dy0="+dy0+", dy1="+dy1+"<br>"+
+          "rankR="+rankR.toString()+"<br>"+
+          "medsubA="+medsubA+"<br><br>";*/
       }//x
     }//y
     for(var y=0;y<wy;y++){

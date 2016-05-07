@@ -1,10 +1,10 @@
-%filename='o0462048812502599345.jpg';
-filename='o0597039813019218534.png';
+filename='o0462048812502599345.jpg';
+%filename='o0597039813019218534.png';
 %filename='o0594052413002384746.png';
 %filename='6494.jpg';
 trendR   = 50;
 smoothF  = [1 -0.5]';
-noiseThRate = 0.001;
+noiseThRate = 0.01;
 
 A = mean(imread(filename),3);
 wx=size(A,1);
