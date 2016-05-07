@@ -39,7 +39,6 @@ B = nrsrtA;
 checked = (B==0)+0; % 1=checked
 checked([1 end],1:end)=1; % discard photo edge
 checked(1:end,[1 end])=1; % discard photo edge
-checked2=checked;
 
 cx = zeros(ceil(wx*wy/2),1);
 cy = zeros(ceil(wx*wy/2),1);
@@ -72,7 +71,6 @@ for y=2:wy-1
               end
               if clust(x2  ,y2-1)==0
                 clust(x2  ,y2-1)=2;
-                clust(x2,y2)=3;
                 y0=min(y0,y2-1);
                 renewed=1;
               end
