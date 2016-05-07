@@ -135,10 +135,24 @@ function analize(){
     }
   }
   
-
-  
+  //noise reduction
   A=normalize(A);
-  
+  var noiseThRate = 0.01;
+  var i=0;
+  rankA = new Array(wx*wy);
+  for(var y=0;y<wy;y++){
+    for(var x=0;x<wx;x++){
+      rankA[i++]=A[y][x];
+    }
+  }
+  rankA.sort(function(a,b){return a<b?1:-1;});
+  var th=rankA[Math.floor(noiseThRate*wx*wy)];
+  var g = 1/(1-th);
+  for(var y=0;y<wy;y++){
+    for(var x=0;x<wx;x++){
+      A[y][x]=A[y][x]<th ? 0:(A[y][x]-th)*g;
+    }
+  }
   
   // A -> ctx
   var idOut = elemCanvasOut.getContext('2d').createImageData(wx,wy);
