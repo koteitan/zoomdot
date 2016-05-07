@@ -3,9 +3,11 @@
 <meta http-equiv="Content-type" content="text/html; charset=sjis">
 <!--[if IE]>
 <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<script type="text/javascript" src="exarray.js"></script>
 <script type="text/javascript" src="excanvas.js"></script>
 <![endif]-->
 <meta http-equiv="Content-Style-Type" content="text/css">
+<script type="text/javascript" src="./exarray.js"></script>
 <script type="text/javascript" src="./main.js"></script>
 <style><!--
   body{font-family:Arial;font-size:10pt;color:#4444FF; background-color:black}
@@ -26,11 +28,11 @@
 Study for AstroPhoto Scouter in javascript</div>
 <input id='fileSelect' type='file' accept='image/*' />
 <table>
+  <tr><td><p>Image   <br><img    class='canvas' id='imgOut'   />                                 
+           </p></td></tr>
   <tr><td><p>Original<br><canvas class='canvas' id='canvasIn'  width='320' height='240'></canvas>
            </p></td></tr>
   <tr><td><p>Canvas  <br><canvas class='canvas' id='canvasOut' width='320' height='240'></canvas>
-           </p></td></tr>
-  <tr><td><p>Image   <br><img    class='canvas' id='imgOut'   />                                 
            </p></td></tr>
 </table>
 <span id="debug"></span>

@@ -1,3 +1,9 @@
+var decay = 0.25;
+var noiseThRate = 0.001;
+var trendR  = 40;
+var trendD  = 10; //must be even
+var trendSD = 40;
+
 var FRIn ;
 var imgIn;
 var elemCanvasIn ;
@@ -36,9 +42,6 @@ function loadImg(e){
   FRIn.readAsDataURL(file);
 }
 
-var trendR  = 40;
-var trendD  = 10; //must be even
-var trendSD = 40;
 var invTrendSD = 1/trendSD;
 function analize(){
   // ctx -> make gray -> A
@@ -101,7 +104,6 @@ function analize(){
   }
   
   //IIR smoothing
-  decay = 0.75;
   //x
   for(var y=0;y<wy;y++){
     var h;
@@ -137,7 +139,6 @@ function analize(){
   
   //noise reduction
   A=normalize(A);
-  var noiseThRate = 0.01;
   var i=0;
   rankA = new Array(wx*wy);
   for(var y=0;y<wy;y++){
@@ -148,26 +149,142 @@ function analize(){
   rankA.sort(function(a,b){return a<b?1:-1;});
   var th=rankA[Math.floor(noiseThRate*wx*wy)];
   var g = 1/(1-th);
+  var checked = new Array(wy);
   for(var y=0;y<wy;y++){
+    checked[y] = new Array(wx);
     for(var x=0;x<wx;x++){
-      A[y][x]=A[y][x]<th ? 0:(A[y][x]-th)*g;
+      if(A[y][x]<th){
+        A[y][x] = 0;
+        checked[y][x]=1;
+      }else{
+        A[y][x] = (A[y][x]-th)*g;
+        checked[y][x]=0;
+      }
     }
+  }
+  for(var y=0;y<wy;y++){
+    checked[y][ 0  ]=1;
+    checked[y][wx-1]=1;
+  }
+  for(var x=0;x<wx;x++){
+    checked[ 0  ][x]=1;
+    checked[wy-1][x]=1;
   }
   
-  // A -> ctx
-  var idOut = elemCanvasOut.getContext('2d').createImageData(wx,wy);
-  var cpaOut = idOut.data;
-  for (y = 0; y < wy ; y++){
-    for (x = 0; x < wx; x++){
-      var i = (x + y * wx) * 4/* RGBA */;
-      var a = Math.floor(A[y][x]*255);
-      cpaOut[i+0] = a;
-      cpaOut[i+1] = a;
-      cpaOut[i+2] = a;
-      cpaOut[i+3] = 255;/*A=255*/
+  //clustering
+  var cx=new Array(Math.ceil(wx*wy/2));
+  var cy=new Array(Math.ceil(wx*wy/2));
+  var cz=new Array(Math.ceil(wx*wy/2));
+  var cs=0;
+  for(var y=2;y<wy-1;y++){
+    for(var x=2;x<wx-1;x++){
+      if(checked[y][x]==0){
+        var clust = checked.clone(); //0=unknown 1=not 2=new 3=old
+        clust[y][x] = 2;
+        var x0 = x-1;
+        var x1 = x+1;
+        var y0 = y-0;
+        var y1 = y+1;
+        while(1){
+          var renewed=0;
+          for(var y2=y0;y2<=y1;y2++){
+            for(var x2=x0;x2<=x1;x2++){
+              if(clust[y2][x2]==2){
+                clust[y2][x2]=3;
+                if(clust[y2][x2-1]==0){
+                  clust[y2][x2-1]=2;
+                  x0=x0<x2-1?x0:x2-1;
+                  renewed=1;
+                }
+                if(clust[y2][x2+1]==0){
+                  clust[y2][x2+1]=2;
+                  x1=x0>x2+1?x0:x2+1;
+                  renewed=1;
+                }
+                if(clust[y2-1][x2]==0){
+                  clust[y2-1][x2]=2;
+                  y0=y0<y2-1?y0:y2-1;
+                  renewed=1;
+                }
+                if(clust[y2+1][x2]==0){
+                  clust[y2+1][x2]=2;
+                  y1=y0>y2+1?y0:y2+1;
+                  renewed=1;
+                }
+              }// if(clust[y2][x2]==2)
+            }//x2
+          }//y2
+          if(!renewed) break;
+        }//while
+        //clustering is finished
+        var ccn=0;
+        var ccx=0;
+        var ccy=0;
+        var ccz=0;
+        for(y2=y0;y2<=y1;y2++){
+          for(x2=x0;x2<=x1;x2++){
+            if(clust[y2][x2]==3){
+              ccn=ccn+ 1;
+              ccx=ccx+x2*A[y2][x2];
+              ccy=ccy+y2*A[y2][x2];
+              ccz=ccz+A[y2][x2];
+              checked[y2][x2]=1;
+            }
+          } // for x2
+        } //for y2
+        cx[cs]=ccx/ccz;
+        cy[cs]=ccy/ccz;
+        cz[cs]=ccz;
+        cs++;
+      }//if
+    }//for x
+  }//for y
+  var g=1/cz.sum();
+  for(var i=0;i<cs;i++) cz[i]*=g;
+  cx=cx.slice(0,cs);
+  cy=cy.slice(0,cs);
+  cz=cz.slice(0,cs);
+
+  if(1){
+    // A -> ctx
+    var idOut = elemCanvasOut.getContext('2d').createImageData(wx,wy);
+    var cpaOut = idOut.data;
+    for (y = 0; y < wy ; y++){
+      for (x = 0; x < wx; x++){
+        var i = (x + y * wx) * 4/* RGBA */;
+        var a = Math.floor(A[y][x]*255);
+        cpaOut[i+0] = a;
+        cpaOut[i+1] = a;
+        cpaOut[i+2] = a;
+        cpaOut[i+3] = 255;/*A=255*/
+      }
     }
   }
-  elemCanvasOut.getContext('2d').putImageData(idOut, 0, 0);
+  var ctxOut = elemCanvasOut.getContext('2d');
+//  ctxOut.putImageData(idOut, 0, 0);
+  ctxOut.drawImage(imgIn, 0, 0, wx, wy);
+
+  //draw
+  var r=5;
+  for(var c=0;c<cs;c++){
+    ctxOut.strokeStyle = 'rgb(255,0,0)'; //cyan
+    ctxOut.beginPath();
+    ctxOut.moveTo(Math.floor(cx[c]-r*2),Math.floor(cy[c]));
+    ctxOut.lineTo(Math.floor(cx[c]-r*1),Math.floor(cy[c]));
+    ctxOut.stroke();
+    ctxOut.beginPath();
+    ctxOut.moveTo(Math.floor(cx[c]+r*2),Math.floor(cy[c]));
+    ctxOut.lineTo(Math.floor(cx[c]+r*1),Math.floor(cy[c]));
+    ctxOut.stroke();
+    ctxOut.beginPath();
+    ctxOut.moveTo(Math.floor(cx[c]),Math.floor(cy[c]-r*2));
+    ctxOut.lineTo(Math.floor(cx[c]),Math.floor(cy[c]-r*1));
+    ctxOut.stroke();
+    ctxOut.beginPath();
+    ctxOut.moveTo(Math.floor(cx[c]),Math.floor(cy[c]+r*2));
+    ctxOut.lineTo(Math.floor(cx[c]),Math.floor(cy[c]+r*1));
+    ctxOut.stroke();
+  }
 }
 function outImg(){
   var src = elemCanvasOut.toDataURL('image/jpg');
