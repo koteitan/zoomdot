@@ -1,11 +1,12 @@
-document.getElementById("versiondisplay").innerHTML = "0.1";
+document.getElementById("versiondisplay").innerHTML = "1.0";
 document.getElementById("changelog").innerHTML = 
 "<h3>ChangeLog</h3>"+
 "<ul>"+
-"<li>2016/06/19 01:45 start."+
+"<li>2016/06/19 01:45 Start."+
+"<li>2016/06/19 02:41 Implemented."+
 "</ul>";
 document.getElementById("knownbugs").innerHTML = 
 "<h3>KnownBug</h3>"+
 "<ul>"+
-"<li>not implemented</li>"+
+"<li>none</li>"+
 "</ul>";

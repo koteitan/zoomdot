@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><head>
-<meta http-equiv="Content-type" content="text/html; charset=sjis">
+<meta http-equiv="Content-type" content="text/html; charset=utf8">
 <!--[if IE]>
 <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
 <script type="text/javascript" src="exarray.js"></script>
@@ -10,28 +10,39 @@
 <script type="text/javascript" src="./exarray.js"></script>
 <script type="text/javascript" src="./main.js"></script>
 <style><!--
-  body{font-family:Arial;font-size:10pt;color:#4444FF; background-color:black}
-  a{color:#4444FF;border-style:none;text-decoration:underline}
-  a:link{color:#4444FF;border-style:none;text-decoration:underline}
-  a:visited{color:#4444FF;border-style:none;text-decoration:underline}
-  a:hover{color:#4444FF;border-color:none;text-decoration:underline}
+  body{font-family:Arial;font-size:10pt;color:black; background-color:white}
+  a{color:black;border-style:none;text-decoration:underline}
+  a:link{color:black;border-style:none;text-decoration:underline}
+  a:visited{color:black;border-style:none;text-decoration:underline}
+  a:hover{color:black;border-color:none;text-decoration:underline}
   address{text-align:right;font-style:normal}
-  td{border-color:#4444FF;text-align:center}
-  th{border-color:#4444FF;text-align:center}
-  input{border-style:solid;border-color:#4444FF;background-color:#000000;color:#4444FF}
-  .tdbutton{border-width:1px;border-style:solid;border-color:white;height:30px;width:30px}
-  .canvas{border-style:solid;border-color:#4444FF}
+  h1{text-align:center}
+  td{border-color:black;text-align:center}
+  th{border-color:black;text-align:center}
+  input{border-style:solid;border-color:black;background-color:white;color:black}
+  .tdbutton{border-width:1px;border-style:solid;border-color:black;height:30px;width:30px}
+  .canvas{border-style:solid;border-color:black}
   hr{border-style:solid}
 --></style>
 <title>Zoom Dot</title></head>
-<div style="vertical-align:center">
-Labeling star name</div>
-<input id='fileSelect' type='file' accept='image/*' />
-<table>
-  <tr><td><p>Original<br><canvas class='canvas' id='canvasIn'  width='320' height='240'></canvas> </p></td></tr>
-  <tr><td><p>Canvas  <br><canvas class='canvas' id='canvasOut' width='320' height='240'></canvas> </p></td></tr>
-  <tr><td><p>Image   <br><img    class='canvas' id='imgOut'></td></tr>
+<h1>zoom dot</h1>
+
+<table align="center">
+  <tr><td><input id='fileSelect' type='file' accept='image/*' /></td></tr>
+  <tr><td>||</td></tr>
+  <tr><td><canvas class='canvas' id='canvasIn'  width='320' height='240'></canvas></td></tr>
+  <tr><td>↓</td></tr>
+  <tr><td><form name="form0">
+    <input type=radio name='ratio' value=2 onchange="javascript:changeratio();" checked>x2
+    <input type=radio name='ratio' value=3 onchange="javascript:changeratio();">x3
+    <input type=radio name='ratio' value=4 onchange="javascript:changeratio();">x4
+    <input type=radio name='ratio' value=5 onchange="javascript:changeratio();">x5
+    <input type=radio name='ratio' value=10 onchange="javascript:changeratio();">x10
+  </form></td></tr>
+  <tr><td>↓</td></tr>
+  <tr><td><img class='canvas' id='imgOut' width='320' height='240'></td></tr>
 </table>
+<canvas style='display:none' id='canvasOut' width='320' height='240'></canvas>
 <span id="debug"></span>
 <hr>
 <div id="changelog"></div>
