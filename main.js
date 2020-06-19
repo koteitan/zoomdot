@@ -6,8 +6,8 @@ var elemimgout   ;
 
 var ratio;
 var colors = 4;
-var wxin = 320;
-var wyin = 240;
+var wxin;
+var wyin;
 var wxout;
 var wyout;
 var isimgloaded;
@@ -33,9 +33,8 @@ window.onload=function(){ //entry point
   elemimgout    = document.getElementById('imgout');
   elemDebug     = document.getElementById('debug');
   document.getElementById('fileselect').addEventListener('change', handleloadimg, false);
-  
-  wxin=320;
-  wyin=240;
+  wxin=300;
+  wyin=200;
   isimgloaded = false;
   handlechangeratio();
   redraw();
