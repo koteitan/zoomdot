@@ -24,25 +24,25 @@
   .canvas{border-style:solid;border-color:black}
   hr{border-style:solid}
 --></style>
-<title>Zoom Dot</title></head>
+<title>zoom dot</title></head>
 <h1>zoom dot</h1>
 
 <table align="center">
-  <tr><td><input id='fileSelect' type='file' accept='image/*' /></td></tr>
+  <tr><td><input id='fileselect' type='file' accept='image/*' /></td></tr>
   <tr><td>||</td></tr>
-  <tr><td><canvas class='canvas' id='canvasIn'  width='320' height='240'></canvas></td></tr>
+  <tr><td><canvas class='canvas' id='canvavsin'  width='320' height='240'></canvas></td></tr>
   <tr><td>↓</td></tr>
   <tr><td><form name="form0">
-    <input type=radio name='ratio' value=2 onchange="javascript:changeratio();" checked>x2
-    <input type=radio name='ratio' value=3 onchange="javascript:changeratio();">x3
-    <input type=radio name='ratio' value=4 onchange="javascript:changeratio();">x4
-    <input type=radio name='ratio' value=5 onchange="javascript:changeratio();">x5
-    <input type=radio name='ratio' value=10 onchange="javascript:changeratio();">x10
+    <input type=radio name='ratio' value=2 onchange="javascript:handlechangeratio();" checked>x2
+    <input type=radio name='ratio' value=3 onchange="javascript:handlechangeratio();">x3
+    <input type=radio name='ratio' value=4 onchange="javascript:handlechangeratio();">x4
+    <input type=radio name='ratio' value=5 onchange="javascript:handlechangeratio();">x5
+    <input type=radio name='ratio' value=10 onchange="javascript:handlechangeratio();">x10
   </form></td></tr>
   <tr><td>↓</td></tr>
-  <tr><td><img class='canvas' id='imgOut' width='320' height='240'></td></tr>
+  <tr><td><img class='canvas' id='imgout' width='320' height='240'></td></tr>
 </table>
-<canvas style='display:none' id='canvasOut' width='320' height='240'></canvas>
+<canvas style='display:none' id='canvasout' width='320' height='240'></canvas>
 <span id="debug"></span>
 <hr>
 <div id="changelog"></div>
@@ -50,7 +50,7 @@
 <div id="knownbugs"></div>
 <hr>
 <address id="debug">
-Zoom Dot
+zoom dot
 version <span id="versiondisplay"></span><br>
 programmed by <a href="https://twitter.com/koteitan">koteitan</a><br>
 source code is at <a href="https://github.com/koteitan/zoomdot">github</a><br>
