@@ -33,8 +33,8 @@ window.onload=function(){ //entry point
   elemimgout    = document.getElementById('imgout');
   elemDebug     = document.getElementById('debug');
   document.getElementById('fileselect').addEventListener('change', handleloadimg, false);
-  wxin=300;
-  wyin=200;
+  wxin=200;
+  wyin=150;
   isimgloaded = false;
   handlechangeratio();
   redraw();
