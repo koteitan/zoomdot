@@ -39,8 +39,8 @@ window.onload=function(){ //entry point
   isimgloaded = false;
   handlechangeratio();
   redraw();
-  drawtext(elemcanvasin , "no image");
-  drawtext(elemcanvasout, "no image");
+  drawtext(elemcanvasin , " no image ");
+  drawtext(elemcanvasout, " no image ");
 }
 var handlechangeratio = function(){
   ratio = form0.ratio.value;
