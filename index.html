@@ -19,10 +19,29 @@
   h1{text-align:center}
   td{border-color:black;text-align:center}
   th{border-color:black;text-align:center}
-  input{border-style:solid;border-color:black;background-color:white;color:black}
+  input{font-size:300%;border-style:solid;border-color:black;background-color:white;color:black}
   .tdbutton{border-width:1px;border-style:solid;border-color:black;height:30px;width:30px}
   .canvas{border-style:solid;border-color:black}
   hr{border-style:solid}
+  .radio-inline__input {
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+  }
+
+  .radio-inline__label {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin-right: 18px;
+    border-radius: 3px;
+    transition: all .2s;
+  }
+
+  .radio-inline__input:checked + .radio-inline__label {
+    background: #B54A4A;
+    color: #fff;
+    text-shadow: 0 0 1px rgba(0,0,0,.7);
+  }
+
 --></style>
 <title>zoom dot</title></head>
 <h1>zoom dot</h1>
@@ -32,12 +51,12 @@
   <tr><td>||</td></tr>
   <tr><td><canvas class='canvas' id='canvavsin'  width='320' height='240'></canvas></td></tr>
   <tr><td>↓</td></tr>
-  <tr><td><form name="form0">
-    <input type=radio name='ratio' value=2 onchange="javascript:handlechangeratio();" checked>x2
-    <input type=radio name='ratio' value=3 onchange="javascript:handlechangeratio();">x3
-    <input type=radio name='ratio' value=4 onchange="javascript:handlechangeratio();">x4
-    <input type=radio name='ratio' value=5 onchange="javascript:handlechangeratio();">x5
-    <input type=radio name='ratio' value=10 onchange="javascript:handlechangeratio();">x10
+  <tr><td><form name="form0" style="font-size:300%">
+    <input class="radio-inline__input" type=radio name='ratio' value= 2 id="item-1" onchange="javascript:handlechangeratio();" checked><label class="radio-inline__label" for="item-1">x2</label>
+    <input class="radio-inline__input" type=radio name='ratio' value= 3 id="item-2" onchange="javascript:handlechangeratio();" ><label class="radio-inline__label" for="item-2">x3</label>
+    <input class="radio-inline__input" type=radio name='ratio' value= 4 id="item-3" onchange="javascript:handlechangeratio();" ><label class="radio-inline__label" for="item-3">x4</label>
+    <input class="radio-inline__input" type=radio name='ratio' value= 5 id="item-4" onchange="javascript:handlechangeratio();" ><label class="radio-inline__label" for="item-4">x5</label>
+    <input class="radio-inline__input" type=radio name='ratio' value=10 id="item-5" onchange="javascript:handlechangeratio();" ><label class="radio-inline__label" for="item-5">x10</label>
   </form></td></tr>
   <tr><td>↓</td></tr>
   <tr><td><img class='canvas' id='imgout' width='320' height='240'></td></tr>
