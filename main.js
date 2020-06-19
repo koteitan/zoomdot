@@ -33,11 +33,14 @@ window.onload=function(){ //entry point
   elemimgout    = document.getElementById('imgout');
   elemDebug     = document.getElementById('debug');
   document.getElementById('fileselect').addEventListener('change', handleloadimg, false);
-
-  wxin=320; wyin=240;
+  
+  wxin=320;
+  wyin=240;
   isimgloaded = false;
   handlechangeratio();
   redraw();
+  drawtext(elemcanvasin , "no image");
+  drawtext(elemcanvasout, "no image");
 }
 var handlechangeratio = function(){
   ratio = form0.ratio.value;
@@ -55,6 +58,7 @@ function handleloadimg(e){
       redraw();
     }
     imgin.src = e.target.result;
+    drawtext(elemcanvasin, "now loading...");
   };
   frin.readAsDataURL(file);
 }
@@ -63,12 +67,13 @@ function handleloadimg(e){
 var redraw = function(){
   changesize();
   if(isimgloaded){
-    analize();
+    drawtext(elemcanvasout,"now loading...");
+    setTimeout(analize, 0);
   }
 };
 var changesize = function(){
-  wxout                  = wxin*ratio;
-  wyout                  = wyin*ratio;
+  wxout                = wxin*ratio;
+  wyout                = wyin*ratio;
   elemcanvasin.width   = wxin;
   elemcanvasin.height  = wyin;
   elemcanvasout.width  = wxout;
@@ -103,6 +108,30 @@ var analize = function(){
   }
   var ctxout = elemcanvasout.getContext('2d');
   ctxout.putImageData(idout, 0, 0);
+  var src = elemcanvasout.toDataURL('image/jpg');
+  elemimgout.src = src;
+}
+var drawtext = function(elem, text){
+  /* get initial font size into tx,ty */
+  var ctx  = elem.getContext('2d');
+  var bx = ctx.canvas.width;
+  var by = ctx.canvas.height;
+  var ty = 10;
+  ctx.font = Math.floor(ty)+"px sans-serif";
+  var tx = ctx.measureText(text).width;
+  /* get optimal ratio r */
+  var rx = bx/tx;
+  var ry = by/ty;
+  var r=rx<ry?rx:ry;
+  /* set optimal font size again */
+  tx = tx*r;
+  ty = ty*r;
+  ctx.font = Math.floor(ty)+"px sans-serif";
+  /* draw text */
+  ctx.fillStyle='white';
+  ctx.clearRect(0,0,bx,by);
+  ctx.fillStyle='black';
+  ctx.fillText(text,Math.floor(bx/2-tx/2),Math.floor(by/2-ty/2));
   var src = elemcanvasout.toDataURL('image/jpg');
   elemimgout.src = src;
 }
